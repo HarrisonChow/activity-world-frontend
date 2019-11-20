@@ -32,23 +32,22 @@ class Register extends React.Component {
                 values.category = values.category.join(', ');
               }
               values.role = this.state.role;
-              console.log(values);
-              // axios({
-              //   method: 'post',
-              //   url: 'http://13.55.208.161:3000/auth/register',
-              //   data: values,
-              // }).then(response => {
-              //     this.redirectUser();
-              // }).catch(error => {
-              //     this.setState({
-              //         errors: error.response.data.message,
-              //         alert: 'block'
-              //     });
-              //
-              //     setTimeout(function(){
-              //         this.setState({alert:'none'});
-              //     }.bind(this),5000);
-              // });
+              axios({
+                method: 'post',
+                url: 'http://13.55.208.161:3000/auth/register',
+                data: values,
+              }).then(response => {
+                  this.redirectUser();
+              }).catch(error => {
+                  this.setState({
+                      errors: error.response.data.message,
+                      alert: 'block'
+                  });
+
+                  setTimeout(function(){
+                      this.setState({alert:'none'});
+                  }.bind(this),5000);
+              });
           }
         });
     }
