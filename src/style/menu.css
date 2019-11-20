@@ -1,0 +1,25 @@
+.logo {
+  width: auto;
+  height: 48px;
+  float: left;
+}
+
+.ant-layout-header {
+  padding: 0;
+  height: inherit;
+  line-height: inherit;
+}
+
+.MenuWeb {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .MenuWeb {
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 998;
+  }
+}

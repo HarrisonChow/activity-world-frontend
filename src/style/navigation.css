@@ -1,0 +1,68 @@
+
+.ant-menu-inline-collapsed {
+    margin-left: -84px;
+    position: absolute;
+}
+.navigation-header {
+    width: 100%;
+    background-color: #041e42;
+    text-align: right;
+    padding: 10px;
+    height: 60px;
+}
+.navigation-header .ant-btn {
+    height: 40px;
+    margin-bottom: 0px !important;
+    float: left;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: rgba(255, 178, 53, 0.3);
+}
+.ant-menu-vertical .ant-menu-item:after,
+.ant-menu-vertical-left .ant-menu-item:after,
+.ant-menu-vertical-right .ant-menu-item:after,
+.ant-menu-inline .ant-menu-item:after {
+    border-right: 3px solid #ff7f07;
+}
+.logo {
+    color: #fff;
+    font-weight: 600;
+    font-size: 28px;
+    text-align: center;
+}
+.nav-menu {
+    width: 256px;
+    position: absolute;
+}
+.ant-menu-root.ant-menu-vertical,
+.ant-menu-root.ant-menu-vertical-left,
+.ant-menu-root.ant-menu-vertical-right,
+.ant-menu-root.ant-menu-inline {
+    -webkit-box-shadow: 2px 2px 1px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 1px -2px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 1px -2px rgba(0,0,0,0.75);
+}
+.booking-notice {
+    font-size: 24px;
+    color: #fff;
+}
+.right-bar {
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+    display: flex;
+}
+
+.MenuMobile {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .MenuMobile {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 998;
+    display: block;
+  }
+}

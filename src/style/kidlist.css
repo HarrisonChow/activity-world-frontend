@@ -1,0 +1,9 @@
+.kidlistContainer .table-container table thead {
+  display: none;
+}
+.kidlistContainer .table-container {
+  margin-top: 0;
+}
+.kidlistContainer {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}

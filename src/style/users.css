@@ -1,0 +1,18 @@
+.users-list {
+    min-height: 150px;
+    padding: 15px;
+}
+.user-item {
+    display: flex;
+    width: 100%;
+}
+.user-item a:first-child {
+    width: 95%;
+}
+.user-item a:last-child {
+    padding-top: 25px;
+    padding-left: 20px;
+}
+.active-btn {
+    margin-right: 20px;
+}

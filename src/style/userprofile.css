@@ -1,0 +1,24 @@
+.ant-card-meta {
+    margin: -10px 0;
+}
+.ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 5px;
+}
+.ant-divider-horizontal {
+    margin: 20px 0;
+}
+.profile-header {
+    font-weight: 600;
+    font-size: 18px;
+    padding: 15px 24px;
+    color: #041e42;
+}
+.ant-divider-dashed {
+    border-top: 1px dashed #041e42;
+}
+.edit-btn {
+    float: right;
+}
+.profileContainer {
+  margin: 25px 10px;
+}

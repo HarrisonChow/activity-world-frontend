@@ -1,0 +1,78 @@
+.courses-list {
+    min-height: 150px;
+    padding: 15px;
+}
+.course-item {
+    display: flex;
+    width: 100%;
+}
+.course-item a:first-child {
+    width: 95%;
+}
+.course-item a:last-child {
+    padding-top: 25px;
+    padding-left: 20px;
+}
+.custom-filter-dropdown {
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+}
+.ant-alert-success {
+    margin: 10px;
+}
+.custom-filter-dropdown input {
+  width: 130px;
+  margin-right: 8px;
+}
+
+.highlight {
+  color: #f50;
+}
+.add-btn, .view-shopping-cart-btn {
+    margin: 15px;
+}
+.table-container {
+    margin-top: 15px;
+}
+.table-container .cancelling td:first-child {
+  border-left: 10px solid #EA1B64;
+}
+.table-container .actived td:first-child {
+  border-left: 10px solid #49B150;
+}
+.table-container .applying td:first-child {
+  border-left: 10px solid #F8981D;
+  /* border-left: 10px solid #4355A5 */
+}
+.table-container .ant-table-thead > tr > th, .table-container .ant-table-tbody > tr > td {
+  padding: 16px 5px;
+}
+.table-container .ant-table-thead > tr > th p, .table-container .ant-table-tbody > tr > td p {
+  margin-bottom: 0;
+}
+.courseCapacity {
+    width: 50px;
+    border-radius: 5px 0 0 5px;
+}
+.shoppingCart {
+    height: 32px;
+    border-radius: 0 5px 5px 0;
+}
+.add-shopping {
+    display: flex;
+}
+.con_cancel {
+    height: auto;
+    padding: 0 5px;
+}
+.app_confirm {
+    background-color: #a3dd82;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+    border-radius: 4px;
+    border: none;
+    font-size: 15px;
+    color: #fff;
+    padding: 0 5px;
+}

@@ -1,0 +1,43 @@
+.ant-carousel .slick-slide {
+  text-align: center;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+.ant-carousel .slick-dots li.slick-active button {
+  background: black;
+}
+.ant-carousel .slick-dots li button {
+  background: rgb(52, 57, 70);
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 8px,
+              rgba(0, 0, 0, 0.4) 0px -1px 0px inset,
+              rgba(255, 255, 255, 0.1) 0px -2px 0px inset;
+}
+.ant-carousel .slick-dots {
+  bottom: 24px;
+}
+.responsive {
+  width: 100%;
+  height: auto;
+  max-height: 270px;
+}
+.previous-button {
+  z-index: 997;
+}
+.carousel-container {
+  position: relative;
+}
+.previous-button, .next-button {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+}
+.previous-button {
+  left: 25px;
+}
+.next-button {
+  right: 25px;
+}

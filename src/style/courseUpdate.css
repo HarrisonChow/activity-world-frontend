@@ -1,0 +1,36 @@
+.ant-card-head-title {
+    padding: 19px 0;
+}
+.ant-card-extra {
+    padding: 0;
+}
+#form-course-update .course-update-form {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    width: 65%;
+    background-color: #f3f3f3;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.full-tag {
+  margin-top: 20px;
+}
+#form-course-update .ant-form-item-label {
+  text-align: left;
+}
+#form-course-update .ant-select {
+  width: 100% !important;
+}
+
+@media only screen and (max-width: 768px) {
+    #form-course-update .course-update-form {
+        width: 85%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #form-course-update .course-update-form {
+        width: 95%;
+    }
+}

@@ -1,0 +1,36 @@
+.ant-form.ant-form-inline {
+  margin-bottom: 10px;
+}
+.searchContainer .ant-btn-primary {
+  width: 100%;
+}
+.searchContainer {
+  padding: 0 5px;
+}
+.ant-form-inline .ant-form-item {
+  margin-right: 0;
+}
+
+@media only screen and (max-width: 575px) {
+  .ant-form-inline .ant-form-item {
+    width: 100%;
+  }
+  .ant-select {
+    width: 34% !important;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  .searchInput {
+    position: relative;
+    width: 85%;
+  }
+  .ant-form-inline .ant-form-item > .ant-form-item-control-wrapper, .ant-form-inline .ant-form-item > .ant-form-item-label {
+    display: block;
+  }
+  .searchButton {
+    position: relative;
+    width: 15%;
+  }
+
+}

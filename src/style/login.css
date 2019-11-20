@@ -1,0 +1,35 @@
+#form-login .login-form {
+    margin-top: 20px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    background-color: #f3f3f3;
+}
+#form-login .login-form-forgot {
+  float: right;
+}
+#form-login .login-form-button {
+  width: 100%;
+}
+.ant-btn-primary {
+    background-color: #041e42;
+    border: 1px solid #041e42;
+}
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: grey;
+    color: #fff;
+}
+a {
+    color: #041e42;
+}
+a:hover {
+    color: grey;
+}
+.login-header {
+    color: #000;
+    font-weight: 600;
+    font-size: 28px;
+    text-align: center;
+    margin-top: 100px;
+}

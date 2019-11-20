@@ -1,0 +1,66 @@
+.courses-list {
+    min-height: 150px;
+    padding: 15px;
+}
+.course-item {
+    display: flex;
+    width: 100%;
+}
+.course-item a:first-child {
+    width: 95%;
+}
+.course-item a:last-child {
+    padding-top: 25px;
+    padding-left: 20px;
+}
+.custom-filter-dropdown {
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+}
+.ant-alert-success {
+    margin: 10px;
+}
+.custom-filter-dropdown input {
+  width: 130px;
+  margin-right: 8px;
+}
+
+.highlight {
+  color: #f50;
+}
+.add-btn, .view-shopping-cart-btn {
+    margin: 15px;
+}
+.table-container {
+    margin-top: 15px;
+}
+.courseCapacity {
+    width: 50px;
+    border-radius: 5px 0 0 5px;
+}
+.shoppingCart {
+    height: 32px;
+    border-radius: 0 5px 5px 0;
+}
+.add-shopping {
+    display: flex;
+}
+.activity_name, .price, .remaining_spot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.activity_name {
+  max-width: 148px;
+}
+.price {
+  max-width: 70px;
+}
+.remaining_spot {
+  max-width: 120px;
+}
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  padding: 16px 10px;
+}

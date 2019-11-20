@@ -1,0 +1,13 @@
+.container-box {
+    /* min-height: calc(100vh - 130px);
+    padding: 15px; */
+    overflow: scroll;
+    width: 100%;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+@media only screen and (min-width: 768px) {
+  .container-box {
+      margin-top: 60px;
+  }
+}

@@ -1,0 +1,7 @@
+#form-kid-add, #form-kid-update {
+  padding: 15px 10px;
+}
+.buttons-container .course-add-btn, .buttons-container .cancel-btn, .buttons-container .update-btn {
+  width: 40%;
+  margin: 0 10px;
+}
