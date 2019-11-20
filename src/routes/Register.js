@@ -39,10 +39,11 @@ class Register extends React.Component {
               }).then(response => {
                   this.redirectUser();
               }).catch(error => {
-                  this.setState({
-                      errors: error.response.data.message,
-                      alert: 'block'
-                  });
+                console.log(error);
+                  // this.setState({
+                  //     errors: error.response.data.message,
+                  //     alert: 'block'
+                  // });
 
                   setTimeout(function(){
                       this.setState({alert:'none'});
