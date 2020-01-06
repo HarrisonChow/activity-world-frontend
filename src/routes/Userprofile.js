@@ -15,7 +15,8 @@ export default class Userprofile extends React.Component {
         data: [],
         role: localStorage.user_role,
         success: 'none',
-        kids: false
+        kids: false,
+        userId: this.props.match.params.id
     }
 
     componentWillMount() {
@@ -155,7 +156,7 @@ export default class Userprofile extends React.Component {
 
                 {this.state.role ==='client' && <Kidlist history={this.props.history} checkingKids = {this.checkingKids}/>}
 
-                {this.state.role ==='officer' && <Uploadimg/>}
+                {this.state.role ==='officer' && <Uploadimg userId = {this.state.userId}/>}
             </div>
         );
     }

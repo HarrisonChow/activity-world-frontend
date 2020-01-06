@@ -16,50 +16,13 @@ export default class Uploadimg extends React.Component {
     state = {
       previewVisible: false,
       previewImage: '',
-      file: null,
       fileList: [
         {
           uid: '-1',
           name: 'image.png',
           status: 'done',
           url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-2',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-3',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-4',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-5',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-6',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-7',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
+        }
 
       ],
     };
@@ -67,7 +30,6 @@ export default class Uploadimg extends React.Component {
     handleCancel = () => this.setState({ previewVisible: false });
 
     handlePreview = async file => {
-      console.log(file);
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj);
       }
@@ -78,71 +40,98 @@ export default class Uploadimg extends React.Component {
       });
     };
 
-    handleChange = ({ fileList }) => {
-      const formData = new FormData();
-      formData.append('file', fileList[fileList.length - 1]);
-      axios.post(`hhttp://13.55.208.161:3000/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+    handleChange = (event) => {
+      var formData = new FormData();
+      for ( var key in event.file ) {
+          formData.append(key, event.file[key]);
+      }
+      if (event.file.status === "removed") {
+        var value = {
+          key: event.file.uid
+        };
+        axios({
+            method: 'post',
+            url: 'http://13.55.208.161:3000/file/'+this.props.userId,
+            data: value,
+            withCredentials: true,
+            headers: { 'Content-Type': 'application/json' },
+        }).then(response => {
+          if (response.statusText === "OK") {
+            this.setState({ fileList: event.fileList });
+          }
+        }).catch((error) => {
+
+        });
+
+      } else if (event.file.status === "uploading") {
+        axios.post(`http://13.55.208.161:3000/files/`+this.props.userId, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          let uploadData =[];
+          let dataItem = {
+            uid : response.data.Key,
+            name : response.data.Key,
+            status : 'done',
+            url : "https://elasticbeanstalk-ap-southeast-2-706046992326.s3-ap-southeast-2.amazonaws.com/" + response.data.Key
+          }
+
+          uploadData.push(dataItem);
+          var joined = this.state.fileList.concat(uploadData);
+          this.setState({
+            fileList: joined,
+          });
+        }).catch(error => {
+          // handle your error
+        });
+      }
+    }
+
+    componentWillMount() {
+      axios({
+        method: 'get',
+        url: 'http://13.55.208.161:3000/files/'+this.props.userId,
+        withCredentials: true,
       }).then(response => {
-        this.setState({ fileList });
-      }).catch(error => {
-        // handle your error
+        var joined = this.state.fileList.concat(response.data);
+          this.setState({
+            fileList: joined,
+          });
+      }).catch((error) => {
       });
-
-    }
-
-
-    submitFile = (event) => {
-      event.preventDefault();
-      const formData = new FormData();
-      formData.append('file', this.state.file[0]);
-      console.log(this.state.file[0]);
-      // axios.post(`http://localhost:3000/upload`, formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // }).then(response => {
-      //   // handle your response;
-      // }).catch(error => {
-      //   // handle your error
-      // });
-    }
-
-    handleFileUpload = (event) => {
-      this.setState({file: event.target.files});
     }
 
     render() {
-        const { previewVisible, previewImage, fileList } = this.state;
-        const uploadButton = (
-          <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-          </div>
-        );
+      const { previewVisible, previewImage, fileList } = this.state;
+      const uploadButton = (
+        <div>
+          <Icon type="plus" />
+          <div className="ant-upload-text">Upload</div>
+        </div>
+      );
 
-        return (
-          <div className="uploadimg">
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}
-            >
-              {fileList.length >= 10 ? null : uploadButton}
-            </Upload>
-            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-              <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
+      const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+          onSuccess("ok");
+        }, 0);
+      };
 
-            <form onSubmit={this.submitFile}>
-              <input label='upload file' type='file' onChange={this.handleFileUpload} />
-              <button type='submit'>Send</button>
-            </form>
-          </div>
-        );
+      return (
+        <div className="uploadimg">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={this.handlePreview}
+            onChange={this.handleChange}
+            customRequest={dummyRequest}
+          >
+            {fileList.length >= 10 ? null : uploadButton}
+          </Upload>
+          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+        </div>
+      );
     }
 }

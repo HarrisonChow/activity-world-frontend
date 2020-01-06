@@ -12,16 +12,40 @@ const { Header } = Layout;
 export default class MenuWeb extends React.Component  {
     state = {
         viewType: this.props.currentRole,
-    };
-
-    handleClick = e => {
-        console.log('click ', e);
-    };
+    }
 
     logingOut = () => {
         this.setState({
             viewType: logout(),
         });
+    }
+    bookingCheck = () => {
+        axios({
+            method: 'get',
+            url: 'http://13.55.208.161:3000/bookings/check',
+            withCredentials: true,
+            data: {
+              user_id: localStorage.user_id
+            }
+        }).then(response => {
+            var newBookings = response.data.length;
+
+            this.setState({
+                admin_booking_message: newBookings,
+            });
+        }).catch((error) => {
+
+        });
+    }
+    componentWillMount(){
+      if (localStorage.user_role) {
+        this.setState({
+            viewType: localStorage.user_role,
+        });
+      }
+      if (localStorage.user_role === 'officer') {
+          this.bookingCheck();
+      }
     }
     componentWillUpdate(prevProps, prevState) {
         if (localStorage.user_role !== prevState.viewType) {
@@ -30,14 +54,13 @@ export default class MenuWeb extends React.Component  {
             });
         }
     }
-
     render() {
         return (
           <Header className="MenuWeb">
             <div>
               <img src={logo} alt="logo" className="logo" />
             </div>
-            <Menu onClick={this.handleClick} mode="horizontal">
+            <Menu mode="horizontal">
 
               <Menu.Item key="1">
                   <Link to={{pathname: '/'}}>

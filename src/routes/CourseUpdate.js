@@ -1,12 +1,21 @@
 import React from 'react';
 import axios from "axios";
 import '../style/courseUpdate.css';
-import { Form, Button, Card, Tag } from 'antd';
+import { Form, Button, Card, Tag, Descriptions} from 'antd';
 import Kidlist from './Kidlist';
-import Comment from './Comment';
+import UsersComment from './UsersComment';
 import Rating from './Rating';
-import CommentList from './CommentList';
+import UsersCommentList from './UsersCommentList';
 import CourseUpdateForm from './CourseUpdateForm';
+
+var data = [];
+var course_id = '';
+var currentRate = [];
+var owned = false;
+var rateStatus = false;
+var commentStatus = false;
+var averageRate = 0;
+var courseUsersComment = [];
 
 class CourseUpdate extends React.Component {
       _isMounted = false;
@@ -22,7 +31,10 @@ class CourseUpdate extends React.Component {
           rateStatus: false,
           commentStatus: false,
           submitButton: false,
-          courseComment: [],
+          courseUsersComment: [],
+          ownerData: [],
+          owned: false,
+          course_id: ''
       }
 
       updateRateStatus = (e) => {
@@ -52,8 +64,8 @@ class CourseUpdate extends React.Component {
             url: 'http://13.55.208.161:3000/courses/'+this.props.match.params.id,
             data: value,
         }).then(response => {
-          var newRate = this.state.currentRate.concat(e);
-          this.setState({ currentRate: newRate })
+          currentRate = this.state.currentRate.concat(e);
+          this.setState({ currentRate: currentRate })
           this.averageRating();
           this.updateRateStatus();
         }).catch(error => {
@@ -61,44 +73,50 @@ class CourseUpdate extends React.Component {
       }
 
       averageRating = () => {
-        var rateArray = this.state.currentRate;
+        var rateArray = currentRate;
         var sum = 0;
         for( var i = 0; i < rateArray.length; i++ ) {
             sum += parseInt( rateArray[i], 10 );
         }
         var avg = sum/rateArray.length;
-        this.setState({
-            averageRate: avg
-        });
-
+        averageRate = avg;
       }
 
-      checkingRatingAndComment = (id) => {
+      checkingRatingAndUsersComment = (id) => {
         id = parseInt(id, 10);
         axios({
           method: 'get',
           url: 'http://13.55.208.161:3000/bookings/'+id,
           withCredentials: true,
         }).then(response => {
-          this.setState({
-            rateStatus:true,
-            commentStatus:true
-          });
+          rateStatus = true;
+          commentStatus = true;
         }).catch((error) => {
         });
       }
 
-      getAllComments = () => {
+      getAllUsersComments = () => {
         axios({
           method: 'get',
           url: 'http://13.55.208.161:3000/comments/'+this.props.match.params.id,
           withCredentials: true,
         }).then(response => {
-            this.setState({
-              courseComment: response.data,
-            });
+            courseUsersComment = response.data;
         }).catch((error) => {
 
+        });
+      }
+
+      getCourseOwnerDetails = (id) => {
+        axios({
+          method: 'get',
+          url: 'http://13.55.208.161:3000/users/'+id,
+          withCredentials: true,
+        }).then(response => {
+            this.setState({
+              ownerData: response.data,
+            });
+        }).catch((error) => {
         });
       }
 
@@ -152,43 +170,66 @@ class CourseUpdate extends React.Component {
           }).catch((error) => {
           });
         } else {
-
         }
+      }
+
+
+      componentWillMount() {
+        this.getAllUsersComments();
+        axios({
+          method: 'get',
+          url: 'http://13.55.208.161:3000/courses/'+this.props.match.params.id,
+          withCredentials: true,
+        }).then(response => {
+            currentRate = response.data.rate ? response.data.rate : [5];
+            data = response.data;
+            course_id = this.props.match.params.id;
+
+            if (response.data.user_id === parseInt(localStorage.user_id, 10)) {
+              owned = true;
+            }
+            this.averageRating();
+            if (localStorage.user_id) {
+              this.checkingRatingAndUsersComment(response.data.id);
+              this.getCourseOwnerDetails(response.data.user_id);
+            }
+
+            this.setState({
+              data: data,
+              course_id: course_id,
+              currentRate: currentRate,
+              owned: owned,
+              rateStatus: rateStatus,
+              commentStatus: commentStatus,
+              averageRate: averageRate,
+              courseUsersComment: courseUsersComment
+            });
+
+        }).catch((error) => {
+
+        });
+
+
 
       }
 
-      componentDidMount() {
-        this._isMounted = true;
-        this.getAllComments();
-          axios({
-            method: 'get',
-            url: 'http://13.55.208.161:3000/courses/'+this.props.match.params.id,
-            withCredentials: true,
-          }).then(response => {
-              var currentRate = response.data.rate ? response.data.rate : [5];
-
-              this.setState({
-                data: response.data,
-                course_id: this.props.match.params.id,
-                currentRate: currentRate,
-              });
-
-              this.averageRating();
-              this.checkingRatingAndComment(this.state.data.id);
-
-          }).catch((error) => {
-
-          });
-      }
-      componentWillUnmount() {
-        this._isMounted = false;
-      }
+      // componentDidMount() {
+      //   this._isMounted = true;
+      //
+      //
+      //
+      //
+      //
+      // }
+      // componentWillUnmount() {
+      //   this._isMounted = false;
+      // }
 
       render() {
 
       return (
           <div id='form-course-update'>
-              { this.state.role ==='admin' || this.state.role ==='officer'  ? (
+              { this.state.role ==='admin' || (this.state.role ==='officer' && this.state.owned === true)  ? (
                 <CourseUpdateForm
                   formProps={this.props}
                   formProp={this.props.form}
@@ -231,38 +272,32 @@ class CourseUpdate extends React.Component {
                   />}
 
                   <div className="additional">
-                    <p>
-                      <label>Course Content: </label>
-                      {this.state.data.course_content}
-                    </p>
-                    <p>
-                      <label>Price: </label>
-                      ${this.state.data.price}
-                    </p>
-                    <p>
-                      <label>Remaining Spot: </label>
-                      {this.state.data.remaining_spot}/{this.state.data.capacity}
-                    </p>
-                    <p>
-                      <label>Location: </label>
-                      {this.state.data.location}
-                    </p>
-                    <p>
-                      <label>Repeat On Every: </label>
-                      {this.state.data.repeat_on}
-                    </p>
-                    <p>
-                      <label>Semester: </label>
-                      From {this.state.data.start_date} to {this.state.data.end_date}
-                    </p>
-                    <p>
-                      <label>Session Length: </label>
-                      {this.state.data.time_from} - {this.state.data.time_to}
-                    </p>
-                    <p>
-                      <label>Age: </label>
-                      {this.state.data.age_group}
-                    </p>
+                    <Descriptions title="About Course" layout="horizontal" column={{ sm: 2, xs: 1 }}>
+                      <Descriptions.Item label="Course Content">
+                        {this.state.data.course_content}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Price">
+                        ${this.state.data.price}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Remaining Spot">
+                        {this.state.data.remaining_spot}/{this.state.data.capacity}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Location">
+                        {this.state.data.location}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Repeat On Every">
+                        {this.state.data.repeat_on}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Semester">
+                        From {this.state.data.start_date} to {this.state.data.end_date}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Session Length">
+                        {this.state.data.time_from} - {this.state.data.time_to}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Age Group">
+                        {this.state.data.age_group}
+                      </Descriptions.Item>
+                    </Descriptions>
                     <Rating
                       rateStatus={this.state.rateStatus}
                       currentRate={this.state.currentRate}
@@ -271,16 +306,31 @@ class CourseUpdate extends React.Component {
                       formProp={this.props.form}
                     />
 
-                    <CommentList
+                    {localStorage.user_id
+                      &&
+                      <Descriptions title={this.state.ownerData.business_name} layout="horizontal" column={1}>
+                        <Descriptions.Item label="Phone">
+                          {this.state.ownerData.phone}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Email">
+                          {this.state.ownerData.email}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Description">
+                          {this.state.ownerData.description}
+                        </Descriptions.Item>
+                      </Descriptions>
+                    }
+
+                    <UsersCommentList
                       courseId={this.props.match.params.id}
-                      comments={this.state.courseComment}
+                      comments={this.state.courseUsersComment}
                     />
 
                     {this.state.commentStatus
                       &&
-                    <Comment
+                    <UsersComment
                       comprops={this.props}
-                      getAllComments={this.getAllComments}
+                      getAllUsersComments={this.getAllUsersComments}
                     /> }
 
                   </div>

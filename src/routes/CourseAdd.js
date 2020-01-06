@@ -9,10 +9,6 @@ import '../style/courseadd.css';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 class CourseAdd extends React.Component {
     state = {
         confirmDirty: false,
@@ -101,7 +97,6 @@ class CourseAdd extends React.Component {
                         <Select
                           mode="tags"
                           placeholder="Saturday,Sunday"
-                          onChange={handleChange}
                         >
                           {weekdays()}
                         </Select>
@@ -162,7 +157,6 @@ class CourseAdd extends React.Component {
                         <Select
                           mode="tags"
                           placeholder="1-3"
-                          onChange={handleChange}
                         >
                           {ageGroup()}
                         </Select>

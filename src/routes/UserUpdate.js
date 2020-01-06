@@ -6,10 +6,6 @@ import {allCategory} from "../functions/category";
 
 const FormItem = Form.Item;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 class UserUpdate extends React.Component {
     state = {
         confirmDirty: false,
@@ -134,7 +130,6 @@ class UserUpdate extends React.Component {
                             <Select
                               mode="tags"
                               placeholder="Soccer,Basketball"
-                              onChange={handleChange}
                             >
                               {allCategory}
                             </Select>

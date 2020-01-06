@@ -6,11 +6,6 @@ import {allCategory} from "../functions/category";
 
 const FormItem = Form.Item;
 
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 class Register extends React.Component {
     state = {
         confirmDirty: false,
@@ -39,11 +34,10 @@ class Register extends React.Component {
               }).then(response => {
                   this.redirectUser();
               }).catch(error => {
-                console.log(error);
-                  // this.setState({
-                  //     errors: error.response.data.message,
-                  //     alert: 'block'
-                  // });
+                  this.setState({
+                      errors: error.response.data.message,
+                      alert: 'block'
+                  });
 
                   setTimeout(function(){
                       this.setState({alert:'none'});
@@ -187,7 +181,6 @@ class Register extends React.Component {
                       <Select
                         mode="tags"
                         placeholder="Soccer,Basketball"
-                        onChange={handleChange}
                       >
                         {allCategory}
                       </Select>

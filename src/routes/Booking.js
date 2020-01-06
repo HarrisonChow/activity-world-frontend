@@ -446,7 +446,7 @@ export default class Booking extends React.Component {
 
 
             <Table
-              pagination={null}
+              pagination={false}
               className="table-container"
               columns={bookingColumns}
               expandIconAsCell={false}

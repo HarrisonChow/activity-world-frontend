@@ -60,12 +60,6 @@ export default class Home extends React.Component {
           const data = this.state.data.concat(res.data);
           const loadtime = this.state.loadtime + 1;
 
-          if (res.data.length < 4) {
-            this.setState({
-              showLoadingMore:false
-            });
-          }
-
           this.setState({
               data,
               loadingMore: false,

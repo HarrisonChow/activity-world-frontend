@@ -13,16 +13,14 @@ export default class Navigation extends React.Component  {
         popupVisible: false
     }
     toggleCollapsed = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
-    clickOutsideToggleCollapsed = () => {
-        if (!this.state.collapsed) {
-          this.setState({
-              collapsed: !this.state.collapsed,
-          });
+        if (this.state.collapsed) {
+            document.addEventListener('click', this.handleOutsideClick, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
         }
+        this.setState(prevState => ({
+            collapsed: !prevState.collapsed,
+        }));
     }
     logingOut = () => {
         this.setState({
@@ -30,43 +28,13 @@ export default class Navigation extends React.Component  {
         });
     }
 
-    handleClick = () => {
-    if (!this.state.popupVisible) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
+    handleOutsideClick = (e) => {
+      if (this.node.contains(e.target)) {
+        return;
+      }
+      this.toggleCollapsed();
     }
 
-    this.setState(prevState => ({
-       popupVisible: !prevState.popupVisible,
-    }));
-  }
-
-  handleOutsideClick = (e) => {
-    // ignore clicks on the component itself
-    if (this.node.contains(e.target)) {
-      return;
-    }
-
-    this.handleClick();
-  }
-
-
-
-
-
-
-
-
-
-
-
-    menuSelect = () => {
-        this.setState({
-            collapsed: true,
-        });
-    }
     bookingCheck = () => {
         axios({
             method: 'get',
@@ -87,6 +55,11 @@ export default class Navigation extends React.Component  {
     }
 
     componentWillMount(){
+        if (localStorage.user_role && typeof this.state.viewType !=='undefined') {
+          this.setState({
+              viewType: localStorage.user_role,
+          });
+        }
         if (localStorage.user_role === 'officer') {
             this.bookingCheck();
         }
@@ -102,25 +75,7 @@ export default class Navigation extends React.Component  {
     render() {
         return (
             <div className="MenuMobile">
-
-
-
-            <div className="popover-container" ref={node => { this.node = node; }}>
-       <button
-         onClick={this.handleClick}
-       >
-         Toggle Popover
-       </button>
-       {this.state.popupVisible && (
-         <div
-           className="popover"
-         >
-           I'm a popover!
-         </div>
-        )}
-     </div>
-
-                <div className="navigation-header">
+                <div className="navigation-header" ref={node => { this.node = node; }}>
                     <Button onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
                         <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
                     </Button>
@@ -144,7 +99,7 @@ export default class Navigation extends React.Component  {
                         mode="inline"
                         theme="light"
                         inlineCollapsed={this.state.collapsed}
-                        onClick = {this.menuSelect}
+                        onClick = {this.toggleCollapsed}
                     >
                         <Menu.Item key="1">
                             <Link to={{pathname: '/'}}>

@@ -2,17 +2,12 @@ import React from 'react';
 import axios from "axios";
 import '../style/courseUpdate.css';
 import { Form, Input, Button, Alert, DatePicker, TimePicker, Select } from 'antd';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {weekdays} from "../functions/weekdays";
 import {ageGroup} from "../functions/agegroup";
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 export default class CourseUpdateForm extends React.Component {
     state = {
@@ -22,7 +17,7 @@ export default class CourseUpdateForm extends React.Component {
 
     checkNumber = (rule, value, callback) => {
 
-        if (parseInt(value) == value) {
+        if (parseInt(value, 10) === value) {
             callback();
             return;
         }
@@ -138,7 +133,6 @@ export default class CourseUpdateForm extends React.Component {
                 <Select
                   mode="tags"
                   placeholder="Saturday,Sunday"
-                  onChange={handleChange}
                 >
                   {weekdays()}
                 </Select>
@@ -191,7 +185,6 @@ export default class CourseUpdateForm extends React.Component {
                 <Select
                   mode="tags"
                   placeholder="1-3"
-                  onChange={handleChange}
                 >
                   {ageGroup()}
                 </Select>

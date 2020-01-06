@@ -5,7 +5,7 @@ import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-export default class Comment extends React.Component {
+export default class UsersComment extends React.Component {
 
     handleReset = () => {
       this.props.comprops.form.resetFields();
@@ -26,7 +26,7 @@ export default class Comment extends React.Component {
                 data: values,
             }).then(response => {
                 this.handleReset();
-                this.props.getAllComments();
+                this.props.getAllUsersComments();
             }).catch(error => {
             });
         }
