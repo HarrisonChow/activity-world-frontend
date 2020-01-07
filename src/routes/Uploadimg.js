@@ -89,6 +89,7 @@ export default class Uploadimg extends React.Component {
     }
 
     componentWillMount() {
+      console.log("ppppppppp");
       axios({
         method: 'get',
         url: 'http://13.55.208.161:3000/files/'+this.props.userId,
