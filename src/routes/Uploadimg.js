@@ -94,10 +94,12 @@ export default class Uploadimg extends React.Component {
         url: 'http://13.55.208.161:3000/files/'+this.props.userId,
         withCredentials: true,
       }).then(response => {
-        var joined = this.state.fileList.concat(response.data);
-          this.setState({
-            fileList: joined,
-          });
+          if (response.data.length > 0) {
+            var joined = this.state.fileList.concat(response.data);
+            this.setState({
+              fileList: joined,
+            });
+          }
       }).catch((error) => {
       });
     }
